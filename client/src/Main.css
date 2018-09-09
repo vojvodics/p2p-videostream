@@ -1,0 +1,53 @@
+.Main {
+  margin-top: 50px;
+}
+
+.Main h1 {
+  margin: 0;
+  margin-bottom: 40px;
+  color: coral;
+  font-size: 50px;
+}
+
+p {
+  padding: 10px 0;
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 50px;
+}
+
+.Main-users {
+  background: #ccc;
+  margin: 0 20%;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+
+.Main-users-user {
+  padding: 10px;
+  background: rgb(253, 187, 162);
+  cursor: pointer;
+}
+
+.Main-users-user:nth-child(odd) {
+  background: rgb(132, 144, 156);
+}
+
+.Main-users-user:hover {
+  background: #ccc;
+}
+
+.Main-users-user:first-of-type {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.Main-users-user:last-of-type {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+
+/* .Main-users-user:nth-child(odd):hover {
+  background: rgb(253, 127, 146);
+} */

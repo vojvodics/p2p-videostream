@@ -1,0 +1,21 @@
+.Stream-error {}
+
+.Stream-videos {
+  position: relative;
+  margin: auto;
+}
+
+#otherStream {
+  width: 100%;
+  max-height: 100vh;
+}
+
+.Stream-my {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+#myStream {
+  max-width: 300px;
+}
