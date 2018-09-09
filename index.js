@@ -8,7 +8,7 @@ const io = require('socket.io')(server);
 // the list of users
 users = new Map();
 
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '/client/build')));
 
 io.on('connection', function(socket) {
   console.log('a user connected');
