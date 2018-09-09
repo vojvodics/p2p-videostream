@@ -13,7 +13,7 @@
     "react-scripts": "1.1.5"
   },
   "scripts": {
-    "start:server": "node server/index",
+    "start:server": "node index",
     "dev:server": "./node_modules/nodemon/bin/nodemon index",
     "start:client": "react-scripts start",
     "build": "react-scripts build",
