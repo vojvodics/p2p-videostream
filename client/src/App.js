@@ -5,6 +5,7 @@ import Login from './Login';
 import Main from './Main';
 import Stream from './Stream';
 import Peer from 'peerjs';
+import SocketIO from 'socket.io-client';
 
 class App extends Component {
   state = {
@@ -14,23 +15,31 @@ class App extends Component {
     remoteStream: '',
     callId: '',
     startCall: false,
+    socket: null,
   };
 
   componentDidMount() {
-    const users = window.localStorage.getItem('users') || '[]';
-    this.setState({
-      users: JSON.parse(users),
+    const socket = SocketIO('');
+    this.setState({ socket });
+    socket.on('updateUsers', users => {
+      this.setState({ users });
+      console.log(users);
     });
+  }
+
+  componentWillUnmount() {
+    const { socket, peer } = this.state;
+    console.log(peer);
+    socket.emit('disconnect', { id: peer.id });
   }
 
   handleSubmit = e => {
     e.preventDefault();
+    const { socket, username } = this.state;
     const peer = new Peer();
     setTimeout(() => {
       console.log(peer.id);
-      let users = window.localStorage.getItem('users') || '[]';
-      users = [...JSON.parse(users), { id: peer.id }];
-      window.localStorage.setItem('users', JSON.stringify(users));
+      socket.emit('registration', { username, id: peer.id, status: 'online' });
       this.setState({ peer });
       peer.on('call', call => {
         const res = window.confirm('Accept call?');

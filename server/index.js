@@ -6,7 +6,7 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 // the list of users
-users = [];
+users = new Map();
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
@@ -14,14 +14,18 @@ io.on('connection', function(socket) {
   console.log('a user connected');
 
   socket.on('registration', function(user) {
-    users.push(user);
+    users.set(user.id, user);
+    socket.user = user.id;
+    io.sockets.emit('updateUsers', Array.from(users.values()));
     console.log(users);
   });
 
-  socket.on('disconnect', function() {
-    console.log('user disconnected');
+  socket.on('disconnect', () => {
+    users.delete(socket.user);
+    io.sockets.emit('updateUsers', Array.from(users.values()));
+    console.log('user disconnected', socket.user, Array.from(users.values()));
   });
 });
 
-server.listen(3000);
+server.listen(3001);
 console.log('Working...');
