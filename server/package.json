@@ -9,9 +9,13 @@
     "socket.io": "^2.1.1"
   },
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js index"
+    "start": "node index",
+    "dev": "./node_modules/nodemon/bin/nodemon index"
   },
   "devDependencies": {
     "nodemon": "^1.18.4"
+  },
+  "engines": {
+    "node": "8.11.2"
   }
 }
