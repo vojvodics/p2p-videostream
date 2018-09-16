@@ -16,15 +16,21 @@ class App extends Component {
     callId: '',
     startCall: false,
     socket: null,
+    loading: true,
   };
 
   componentDidMount() {
-    const socket = SocketIO('');
-    this.setState({ socket });
+    const socket = SocketIO('http://127.0.0.1:3001');
+    const username = window.localStorage.getItem('username');
+    this.setState({ socket, loading: false, username });
+
     socket.on('updateUsers', users => {
       this.setState({ users });
       console.log(users);
     });
+    if (username) {
+      this.addPeer();
+    }
   }
 
   componentWillUnmount() {
@@ -33,14 +39,15 @@ class App extends Component {
     socket.emit('disconnect', { id: peer.id });
   }
 
-  handleSubmit = e => {
-    e.preventDefault();
+  addPeer = () => {
     const { socket, username } = this.state;
+    console.log(socket);
     const peer = new Peer();
-    setTimeout(() => {
+    peer.on('open', id => {
       console.log(peer.id);
-      socket.emit('registration', { username, id: peer.id, status: 'online' });
-      this.setState({ peer });
+      window.localStorage.setItem('username', username);
+      socket.emit('registration', { username, id, status: 'online' });
+      this.setState({ peer, loading: false });
       peer.on('call', call => {
         const res = window.confirm('Accept call?');
         if (res) {
@@ -56,7 +63,12 @@ class App extends Component {
             });
         }
       });
-    }, 1000);
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.addPeer();
   };
 
   updateUsername = username => {
@@ -71,8 +83,19 @@ class App extends Component {
   isLoggedIn = () => this.state.username && this.state.peer.id;
 
   render() {
-    const { username, peer, users, remoteStream, startCall } = this.state;
+    const {
+      username,
+      peer,
+      users,
+      remoteStream,
+      startCall,
+      loading,
+    } = this.state;
     const loggedIn = this.isLoggedIn();
+
+    if (loading) {
+      return <div>Loading...</div>;
+    }
 
     return (
       <div className="App">

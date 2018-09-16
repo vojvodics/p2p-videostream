@@ -14,6 +14,7 @@ class Stream extends Component {
         if (this.props.startCall) {
           const { peer, callId } = this.props;
           const call = peer.call(callId, myStream);
+          console.log(peer);
           call.on('stream', remoteStream => {
             otherVideoObj.srcObject = remoteStream;
           });
