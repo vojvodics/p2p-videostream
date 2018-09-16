@@ -37,9 +37,9 @@ class App extends Component {
     e.preventDefault();
     const { socket, username } = this.state;
     const peer = new Peer();
-    setTimeout(() => {
+    peer.on('open', id => {
       console.log(peer.id);
-      socket.emit('registration', { username, id: peer.id, status: 'online' });
+      socket.emit('registration', { username, id, status: 'online' });
       this.setState({ peer });
       peer.on('call', call => {
         const res = window.confirm('Accept call?');
@@ -56,7 +56,7 @@ class App extends Component {
             });
         }
       });
-    }, 1000);
+    });
   };
 
   updateUsername = username => {
