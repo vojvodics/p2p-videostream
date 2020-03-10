@@ -10,7 +10,7 @@
     "peerjs": "^0.3.16",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
-    "react-scripts": "1.1.5"
+    "react-scripts": "3.0.0"
   },
   "scripts": {
     "start": "node index",
